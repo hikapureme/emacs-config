@@ -35,3 +35,23 @@
 
 ;; テーマをロード
 (load-theme 'doom-one t) ;; お好みのテーマを指定
+
+;; -------------------------------------------------------------------
+;; LaTeXのための設定
+;; -------------------------------------------------------------------
+(with-eval-after-load 'org
+  ;; LaTeXフラグメントのプレビュー設定
+  (setq org-preview-latex-default-process 'dvisvgm)
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :scale 1.5)) ;; 数式のスケール設定
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :foreground "white")) ;; 数式の色
+  (setq org-latex-create-formula-image-program 'dvisvgm)
+  (setq org-preview-latex-image-directory "~/.emacs.d/ltximg/") ;; キャッシュディレクトリ
+
+  ;; 自動更新の設定
+  (defun my/org-refresh-latex-fragments ()
+    "Org-modeでLaTeXフラグメントを自動更新する。"
+    (when (eq major-mode 'org-mode)
+      (org-preview-latex-fragment)))
+  (add-hook 'post-command-hook 'my/org-refresh-latex-fragments))
