@@ -83,7 +83,6 @@
 ;; -------------------------------------------------------------------
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
 
 ;; use-packageが未インストールの場合はインストール
 (unless (package-installed-p 'use-package)
