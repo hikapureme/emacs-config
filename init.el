@@ -26,6 +26,51 @@
 (global-set-key (kbd "s-n") 'make-frame-command)
 (global-set-key (kbd "s-w") 'kill-this-buffer)
 
+;; Shift + 十字キーで文字選択を有効にする
+(setq shift-select-mode t)
+
+;; Alt (Option) + 十字キーで単語単位の移動を有効化
+(global-set-key (kbd "<M-right>") 'forward-word)  ;; 次の単語へ移動
+(global-set-key (kbd "<M-left>") 'backward-word) ;; 前の単語へ移動
+
+;; 非空白行に移動
+(defun move-to-next-non-blank-line ()
+  "次の非空白行に移動します。"
+  (interactive)
+  (forward-line 1)
+  (while (and (not (eobp)) (looking-at-p "^[[:space:]]*$"))
+    (forward-line 1)))
+
+(defun move-to-previous-non-blank-line ()
+  "前の非空白行に移動します。"
+  (interactive)
+  (forward-line -1)
+  (while (and (not (bobp)) (looking-at-p "^[[:space:]]*$"))
+    (forward-line -1)))
+
+(global-set-key (kbd "<M-down>") 'move-to-next-non-blank-line)    ;; 次の非空白行
+(global-set-key (kbd "<M-up>") 'move-to-previous-non-blank-line) ;; 前の非空白行
+
+;; 非空白行を選択しながら移動
+(defun select-to-next-non-blank-line ()
+  "次の非空白行まで選択します。"
+  (interactive)
+  (let ((current-pos (point)))
+    (move-to-next-non-blank-line)
+    (set-mark-command nil)
+    (goto-char current-pos)))
+
+(defun select-to-previous-non-blank-line ()
+  "前の非空白行まで選択します。"
+  (interactive)
+  (let ((current-pos (point)))
+    (move-to-previous-non-blank-line)
+    (set-mark-command nil)
+    (goto-char current-pos)))
+
+(global-set-key (kbd "<M-S-down>") 'select-to-next-non-blank-line) ;; 次の非空白行を選択しながら移動
+(global-set-key (kbd "<M-S-up>") 'select-to-previous-non-blank-line) ;; 前の非空白行を選択しながら移動
+
 ;; Org-agenda用のキーバインド
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c t") 'org-todo)  ;; TODO状態を切り替える (後述のOrg設定と組み合わせ)
