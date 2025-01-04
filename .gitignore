@@ -1,0 +1,30 @@
+# macOS metadata
+.DS_Store
+
+# Emacs packages / compiled files
+elpa/
+straight/
+*.elc
+
+# Org related databases, caches
+org-roam.db
+org-persist/
+.org-id-locations
+ltximg/
+
+# slime/ もし追跡不要なら
+slime/# バイトコンパイル後の .elc ファイルを無視
+*.elc
+
+# Emacs のバックアップ・オートセーブ関連ファイル
+*~
+.#*
+
+# transient/ や auto-save-list/, url/ など、特定ディレクトリを無視
+transient/
+auto-save-list/
+url/
+cache/
+
+# 独自の custom.el など、マシンごとに異なる設定を無視する場合
+custom.el
